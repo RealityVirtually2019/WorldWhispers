@@ -25,10 +25,10 @@ namespace FrameSynthesis.VR {
     public class HeadGestureDetector : MonoBehaviour
     {
 
-        // [SerializeField]
-		// private UnityEvent _onNodGestureDetected;
-        // [SerializeField]
-		// private UnityEvent _onHeadShakeGestureDetected;
+        [SerializeField]
+		private UnityEvent _onNodGestureDetected;
+        [SerializeField]
+		private UnityEvent _onHeadShakeGestureDetected;
         /// list of samples of of previous head orientations
         LinkedList<Sample> samples;
         float waitTime = 0f;
@@ -120,12 +120,12 @@ namespace FrameSynthesis.VR {
             try {
                 float basePos = Range(0.2f, 0.4f).Average(sample => sample.orientation.eulerAngles.x);
                 float xMax = Range(0.01f, 0.2f).Max(sample =>  sample.orientation.eulerAngles.x);
+                float xMin = Range(0.01f, 0.2f).Min(sample => sample.orientation.eulerAngles.x);
                 float current = samples.First().orientation.eulerAngles.x;
 		
-                if (xMax - basePos > 10f &&
+                if ((xMax - basePos > 10f ||  basePos - xMin > 10f) &&
                     Mathf.Abs(current - basePos) < 5f) {
-                        Debug.Log("nodded");
-                        // SendMessage("TriggerYes", SendMessageOptions.DontRequireReceiver);
+                        _onNodGestureDetected.Invoke();
                         waitTime = detectInterval;
                 }
             } catch (InvalidOperationException) {
@@ -135,7 +135,20 @@ namespace FrameSynthesis.VR {
 
         void DetectHeadshake()
         {
+            try {
+                float basePos = Range(0.2f, 0.4f).Average(sample => sample.orientation.eulerAngles.y);
+                float yMax = Range(0.01f, 0.2f).Max(sample => sample.orientation.eulerAngles.y);
+                float yMin = Range(0.01f, 0.2f).Min(sample => sample.orientation.eulerAngles.y);
+                float current = samples.First().orientation.eulerAngles.y;
 
+                if ((yMax - basePos > 10f || basePos - yMin > 10f) &&
+                    Mathf.Abs(current - basePos) < 5f) {
+                        _onHeadShakeGestureDetected.Invoke();
+                        waitTime = detectInterval;
+                }
+            } catch (InvalidOperationException) {
+                // Range contains no entry
+            }
         }
     }
 }
