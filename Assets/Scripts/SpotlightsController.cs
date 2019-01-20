@@ -39,8 +39,17 @@ public class SpotlightsController : MonoBehaviour
     
     public void playDing()
     {
-        Debug.Log("ding");
         _audioSource.PlayOneShot(_dingClip);
+    }
+
+    public void playLeftAudio()
+    {
+
+    }
+
+    public void playRightAudio()
+    {
+
     }
 
     /// <summary>
@@ -56,25 +65,25 @@ public class SpotlightsController : MonoBehaviour
 
     void Update() {
         if (_calibrating) {
-            	SensorFrame frame = _wearableControl.LastSensorFrame;
+            SensorFrame frame = _wearableControl.LastSensorFrame;
 
-				bool didWaitEnough = Time.unscaledTime > _calibrationStartTime + 5;
-				bool isStationary = frame.angularVelocity.value.magnitude < 1;
-				bool didTimeout = Time.unscaledTime > _calibrationStartTime + 10;
-                if ((didWaitEnough && isStationary) || didTimeout)
-				{
-					_referenceRotation = frame.rotation;
-					_calibrating = false;
+            bool didWaitEnough = Time.unscaledTime > _calibrationStartTime + 5;
+            bool isStationary = frame.angularVelocity.value.magnitude < 1;
+            bool didTimeout = Time.unscaledTime > _calibrationStartTime + 10;
+            if ((didWaitEnough && isStationary) || didTimeout)
+            {
+                _referenceRotation = frame.rotation;
+                _calibrating = false;
 
-					// Pass along the reference to the rotation matcher on the widget.
-					_matcher.SetRelativeReference(frame.rotation);
+                // Pass along the reference to the rotation matcher on the widget.
+                _matcher.SetRelativeReference(frame.rotation);
 
-					if (CalibrationCompleted != null)
-					{
-						CalibrationCompleted.Invoke();
-					}
+                if (CalibrationCompleted != null)
+                {
+                    CalibrationCompleted.Invoke();
+                }
 
-				}
+            }
         }
     }
 
@@ -90,17 +99,21 @@ public class SpotlightsController : MonoBehaviour
         playDing();
 
         SensorQuaternion currentQ = _wearableControl.LastSensorFrame.rotation;
-        float diff = currentQ.value.eulerAngles.x - userCenter.value.eulerAngles.x;
-        Debug.Log(diff);
-
-        if(diff < -15f) {
-            Debug.Log("Left");
-        }
-        else if (diff > 15f) {
-            Debug.Log("Right");
+        float diff = currentQ.value.eulerAngles.y - userCenter.value.eulerAngles.y;
+        // float DotResult = Vector3.Dot(transform., currentQ.value.eulerAngles);
+        // Debug.Log(diff);
+        // if(diff < 30f && diff > 300f) {
+        //     Debug.Log("Center"+ Time.time + " " + diff);
+        //     play
+        // }
+        // else 
+        if (diff > 0 && diff < 180f) {
+            Debug.Log("Right"+ Time.time+ " " + diff);
+            playLeftAudio();
         }
         else {
-            Debug.Log("Center");
+            Debug.Log("Left" + Time.time+ " " + diff);
+            playRightAudio();
         }
 
     }
