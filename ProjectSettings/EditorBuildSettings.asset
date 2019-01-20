@@ -11,13 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Bose/Wearable/Examples/Shared/Scenes/Root.unity
     guid: b100476eb79061246a7d53542a204e54
-  - enabled: 1
+  - enabled: 0
     path: Assets/Bose/Wearable/Examples/ContentDemos/Advanced/Scenes/AdvancedDemo.unity
     guid: 422b6c809820b4a78b2c60a058c8a7b4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Bose/Wearable/Examples/ContentDemos/Basic/Scenes/BasicDemo.unity
     guid: e822a72393d35429f941bfee942e76f4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Bose/Wearable/Examples/Shared/Scenes/MainMenu.unity
     guid: 814d265ed5a714b2f8a496b0e00010e1
   m_configObjects: {}
