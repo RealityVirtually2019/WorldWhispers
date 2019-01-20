@@ -25,11 +25,7 @@ public class SpotlightsController : MonoBehaviour
     /// </summary>
     public event Action CalibrationCompleted;
 
-    /// <summary>
-    /// The audio layer for discovery
-    /// </summary>
-    [SerializeField]
-    protected AudioSource _audioSource;
+    protected AudioControl _audioSource;
         [SerializeField]
     protected AudioClip _dingClip;
     [SerializeField]
@@ -44,41 +40,18 @@ public class SpotlightsController : MonoBehaviour
 
     public void playDing()
     {
-        if (!_audioSource.isPlaying)
-        {
-            _audioSource.PlayOneShot(_dingClip);
-        }
-        else {
-            _audioSource.Stop();
-            _audioSource.PlayOneShot(_dingClip);
-        }
-        
+        _audioSource.PlayOneShot(_dingClip);
+    
     }
 
     public void playLeftAudio()
     {
-
-        if (!_audioSource.isPlaying)
-        {
-            _audioSource.PlayOneShot(_leftClip);
-        }
-        else {
-            _audioSource.Stop();
-            _audioSource.PlayOneShot(_leftClip);
-        }
+        _audioSource.PlayOneShot(_leftClip);
     }
 
     public void playRightAudio()
     {
-        if (!_audioSource.isPlaying)
-        {
-            _audioSource.PlayOneShot(_rightClip);
-        }
-        else {
-            _audioSource.Stop();
-            _audioSource.PlayOneShot(_rightClip);
-        }
-        Debug.Log("right clip");
+        _audioSource.PlayOneShot(_rightClip);
     }
 
     /// <summary>
@@ -154,6 +127,8 @@ public class SpotlightsController : MonoBehaviour
 
         // Grab an instance of the WearableControl singleton. This is the primary access point to the wearable SDK.
         _wearableControl = WearableControl.Instance;
+
+        _audioSource = AudioControl.Instance;
 
         // Subscribe to DeviceConnected to handle reconnects that happen during play.
         _wearableControl.DeviceConnected += OnDeviceConnected;
