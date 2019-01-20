@@ -1,34 +1,48 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Bose.Wearable;
+﻿using Bose.Wearable;
 using UnityEngine;
 
 public class SpotlightsController : MonoBehaviour
 {
-    public bool _activated = false;
-    /// <summary>
-    /// The audio layer for discovery
-    /// </summary>
-    [SerializeField]
-    protected AudioSource _audioDiscover;
-    
-    [SerializeField]
-    protected AudioClip _audioClip;
-
     private WearableControl _wearableControl;
     private RotationMatcher _matcher;
 
     private SensorQuaternion userCenter;
 
+    public enum Stage {
+        INITIAL,
+        SELECTING,
+        SELECTED
+    }
+    private Stage currentStage = Stage.INITIAL;
+
     void Start() {
-        // this.onActivate();
-        // Debug.LogWarning("Finished Playing");
+        // SetCoroutine()
     }
 
-    public void onActivate() {
-        this._activated = true;
-        _audioDiscover.PlayOneShot(_audioClip);
+    void Update() {
+        if(currentStage == Stage.INITIAL) {
+            // SFXController sFXController = GetComponent<SFXController>();
+            // sFXController.playIntroAudio();
+        }
+        else if (currentStage == Stage.SELECTING) {
+
+        }
+    }
+
+    /// <summary>
+    /// Sets center view axis for orienting across spotlights
+    /// </summary>
+    protected void setRelativeDirection()
+    {
         userCenter = _wearableControl.LastSensorFrame.rotation;
+    }
+
+    public void onConfirmLookDirection() {
+
+        SensorQuaternion currentQ = _wearableControl.LastSensorFrame.rotation;
+        Debug.Log(currentQ.value.eulerAngles.x - userCenter.value.eulerAngles.x);
+        SFXController sFXController = GetComponent<SFXController>();
+        sFXController.playDing();
 
     }
 
@@ -57,6 +71,8 @@ public class SpotlightsController : MonoBehaviour
         // If a device is connected, immediately start the rotation sensor
         // This ensures that we will receive data from the sensor during play.
         StartSensors();
+        this.SetRelativeReference();
+        this.setRelativeDirection();
     }
 
     private void OnDisable()

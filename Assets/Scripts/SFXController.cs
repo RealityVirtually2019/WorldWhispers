@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class SFXController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    /// <summary>
+    /// The audio layer for discovery
+    /// </summary>
+    [SerializeField]
+    protected AudioSource _audioSource;
+    
+    [SerializeField]
+    protected AudioClip _introClip;
+
+    [SerializeField]
+    protected AudioClip _dingClip;
+
+    public void playIntroAudio()
     {
-        
+        _audioSource.PlayOneShot(_introClip);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void playDing()
     {
-        
+        _audioSource.PlayOneShot(_dingClip);
     }
 }

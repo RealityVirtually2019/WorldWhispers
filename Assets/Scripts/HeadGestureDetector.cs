@@ -87,7 +87,7 @@ namespace FrameSynthesis.VR {
 			}
 		}
 
-        public void Update()
+        void Update()
         {
             // sample current orientation of frame
             SensorQuaternion q = _wearableControl.LastSensorFrame.rotation;

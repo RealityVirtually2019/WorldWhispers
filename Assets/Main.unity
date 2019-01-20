@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 401284472}
   - component: {fileID: 401284476}
   - component: {fileID: 401284477}
+  - component: {fileID: 401284478}
   m_Layer: 0
   m_Name: SpotlightManager
   m_TagString: Untagged
@@ -249,9 +250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5664ee7abc564ccb931840a9e8b26d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _activated: 0
-  _audioDiscover: {fileID: 401284476}
-  _audioClip: {fileID: 8300000, guid: f3fac31118af24109ba9fe7ba638e590, type: 3}
 --- !u!114 &401284474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,7 +270,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 401284471}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.000000029802322, y: -0.000000014901161, z: 0.21249999}
+  m_LocalPosition: {x: -0.000000029802322, y: -0.04, z: 0.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -291,7 +289,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: -0.24
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -391,7 +389,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 401284473}
-        m_MethodName: onActivate
+        m_MethodName: onConfirmLookDirection
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -403,6 +401,21 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &401284478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401284471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc4c48c0abbcc41b58366a045e3c34e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: 401284476}
+  _introClip: {fileID: 8300000, guid: b040d38e595b14d8ea1bf8fdb99a03a4, type: 3}
+  _dingClip: {fileID: 8300000, guid: f3fac31118af24109ba9fe7ba638e590, type: 3}
 --- !u!1 &964887269
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,7 +498,6 @@ GameObject:
   - component: {fileID: 1528535650}
   - component: {fileID: 1528535648}
   - component: {fileID: 1528535647}
-  - component: {fileID: 1528535646}
   - component: {fileID: 1528535653}
   - component: {fileID: 1528535649}
   m_Layer: 0
@@ -495,35 +507,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1528535646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1528535645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbba9a9b2c0a946c798f8046ea7072b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gesture: 129
-  _onGestureDetected:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1528535647}
-        m_MethodName: Ping
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &1528535647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -631,7 +614,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1528535647}
-        m_MethodName: Ping
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -647,7 +630,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1528535647}
-        m_MethodName: Ping
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
