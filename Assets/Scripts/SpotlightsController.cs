@@ -44,17 +44,41 @@ public class SpotlightsController : MonoBehaviour
 
     public void playDing()
     {
-        _audioSource.PlayOneShot(_dingClip);
+        if (!_audioSource.isPlaying)
+        {
+            _audioSource.PlayOneShot(_dingClip);
+        }
+        else {
+            _audioSource.Stop();
+            _audioSource.PlayOneShot(_dingClip);
+        }
+        
     }
 
     public void playLeftAudio()
     {
-        _audioSource.PlayOneShot(_leftClip);
+
+        if (!_audioSource.isPlaying)
+        {
+            _audioSource.PlayOneShot(_leftClip);
+        }
+        else {
+            _audioSource.Stop();
+            _audioSource.PlayOneShot(_leftClip);
+        }
     }
 
     public void playRightAudio()
     {
-        _audioSource.PlayOneShot(_rightClip);
+        if (!_audioSource.isPlaying)
+        {
+            _audioSource.PlayOneShot(_rightClip);
+        }
+        else {
+            _audioSource.Stop();
+            _audioSource.PlayOneShot(_rightClip);
+        }
+        Debug.Log("right clip");
     }
 
     /// <summary>

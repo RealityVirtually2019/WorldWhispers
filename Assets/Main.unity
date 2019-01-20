@@ -122,6 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 229159108}
   - component: {fileID: 229159107}
+  - component: {fileID: 229159106}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -129,6 +130,14 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!81 &229159106
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229159105}
+  m_Enabled: 1
 --- !u!20 &229159107
 Camera:
   m_ObjectHideFlags: 0
@@ -513,7 +522,6 @@ GameObject:
   - component: {fileID: 1528535648}
   - component: {fileID: 1528535647}
   - component: {fileID: 1528535653}
-  - component: {fileID: 1528535646}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -521,14 +529,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1528535646
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1528535645}
-  m_Enabled: 1
 --- !u!114 &1528535647
 MonoBehaviour:
   m_ObjectHideFlags: 0
