@@ -24,6 +24,7 @@ public class SFXController : MonoBehaviour
 
     public void playDing()
     {
+        Debug.Log("ding");
         _audioSource.PlayOneShot(_dingClip);
     }
 }

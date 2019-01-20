@@ -1,6 +1,6 @@
 ﻿using Bose.Wearable;
 using UnityEngine;
-
+using System;
 public class SpotlightsController : MonoBehaviour
 {
     private WearableControl _wearableControl;
@@ -8,24 +8,73 @@ public class SpotlightsController : MonoBehaviour
 
     private SensorQuaternion userCenter;
 
-    public enum Stage {
-        INITIAL,
-        SELECTING,
-        SELECTED
-    }
-    private Stage currentStage = Stage.INITIAL;
+    // public enum Stage {
+    //     INITIAL,
+    //     SELECTING,
+    //     SELECTED
+    // }
+    // private Stage currentStage = Stage.INITIAL;
 
+    private bool _calibrating;
+    private float _calibrationStartTime;
+
+    private Quaternion _referenceRotation;
+
+    /// <summary>
+    /// Invoked when calibration is complete.
+    /// </summary>
+    public event Action CalibrationCompleted;
+
+    /// <summary>
+    /// The audio layer for discovery
+    /// </summary>
+    [SerializeField]
+    protected AudioSource _audioSource;
+        [SerializeField]
+    protected AudioClip _dingClip;
     void Start() {
-        // SetCoroutine()
+        StartCalibration();
+    }
+
+    
+    public void playDing()
+    {
+        Debug.Log("ding");
+        _audioSource.PlayOneShot(_dingClip);
+    }
+
+    /// <summary>
+    /// Begin the calibration routine. Waits for <see cref="_minCalibrationTime"/>, then until rotational
+    /// velocity falls below <see cref="_calibrationMotionThreshold"/> before sampling the rotation sensor.
+    /// Will not calibrate for longer than <see cref="_maxCalibrationTime"/>.
+    /// </summary>
+    private void StartCalibration()
+    {
+        _calibrating = true;
+        _calibrationStartTime = Time.unscaledTime;
     }
 
     void Update() {
-        if(currentStage == Stage.INITIAL) {
-            // SFXController sFXController = GetComponent<SFXController>();
-            // sFXController.playIntroAudio();
-        }
-        else if (currentStage == Stage.SELECTING) {
+        if (_calibrating) {
+            	SensorFrame frame = _wearableControl.LastSensorFrame;
 
+				bool didWaitEnough = Time.unscaledTime > _calibrationStartTime + 5;
+				bool isStationary = frame.angularVelocity.value.magnitude < 1;
+				bool didTimeout = Time.unscaledTime > _calibrationStartTime + 10;
+                if ((didWaitEnough && isStationary) || didTimeout)
+				{
+					_referenceRotation = frame.rotation;
+					_calibrating = false;
+
+					// Pass along the reference to the rotation matcher on the widget.
+					_matcher.SetRelativeReference(frame.rotation);
+
+					if (CalibrationCompleted != null)
+					{
+						CalibrationCompleted.Invoke();
+					}
+
+				}
         }
     }
 
@@ -38,11 +87,21 @@ public class SpotlightsController : MonoBehaviour
     }
 
     public void onConfirmLookDirection() {
+        playDing();
 
         SensorQuaternion currentQ = _wearableControl.LastSensorFrame.rotation;
-        Debug.Log(currentQ.value.eulerAngles.x - userCenter.value.eulerAngles.x);
-        SFXController sFXController = GetComponent<SFXController>();
-        sFXController.playDing();
+        float diff = currentQ.value.eulerAngles.x - userCenter.value.eulerAngles.x;
+        Debug.Log(diff);
+
+        if(diff < -15f) {
+            Debug.Log("Left");
+        }
+        else if (diff > 15f) {
+            Debug.Log("Right");
+        }
+        else {
+            Debug.Log("Center");
+        }
 
     }
 
@@ -71,8 +130,6 @@ public class SpotlightsController : MonoBehaviour
         // If a device is connected, immediately start the rotation sensor
         // This ensures that we will receive data from the sensor during play.
         StartSensors();
-        this.SetRelativeReference();
-        this.setRelativeDirection();
     }
 
     private void OnDisable()
@@ -81,6 +138,7 @@ public class SpotlightsController : MonoBehaviour
         if (_wearableControl.ConnectedDevice != null)
         {
             _wearableControl.RotationSensor.Stop();
+            _wearableControl.GyroscopeSensor.Stop();
         }
     }
 
@@ -107,6 +165,7 @@ public class SpotlightsController : MonoBehaviour
         {
             _wearableControl.SetSensorUpdateInterval(SensorUpdateInterval.FortyMs);
             _wearableControl.RotationSensor.Start();
+            _wearableControl.GyroscopeSensor.Start();
         }
     }
 }
