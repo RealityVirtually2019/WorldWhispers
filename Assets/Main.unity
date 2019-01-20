@@ -199,6 +199,7 @@ GameObject:
   - component: {fileID: 401284476}
   - component: {fileID: 401284477}
   - component: {fileID: 401284473}
+  - component: {fileID: 401284478}
   m_Layer: 0
   m_Name: SpotlightManager
   m_TagString: Untagged
@@ -242,6 +243,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioSource: {fileID: 401284476}
   _dingClip: {fileID: 8300000, guid: f3fac31118af24109ba9fe7ba638e590, type: 3}
+  _leftClip: {fileID: 8300000, guid: 3746627796a2d4ba8a7c4c0fcdc517bc, type: 3}
+  _rightClip: {fileID: 8300000, guid: 0c194258d4a9c4cc887d7679617ed283, type: 3}
+  _introClip: {fileID: 8300000, guid: b515052e03d8b4a4e8e3124459cc3398, type: 3}
 --- !u!114 &401284474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,6 +395,39 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &401284478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401284471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce7150660e1dd4c8a9ed81ed164d3c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onNodGestureDetected:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 401284473}
+        m_MethodName: onConfirmLookDirection
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  _onHeadShakeGestureDetected:
+    m_PersistentCalls:
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &964887269

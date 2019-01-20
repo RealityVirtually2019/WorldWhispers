@@ -32,11 +32,16 @@ public class SpotlightsController : MonoBehaviour
     protected AudioSource _audioSource;
         [SerializeField]
     protected AudioClip _dingClip;
+    [SerializeField]
+    protected AudioClip _leftClip;
+    [SerializeField]
+    protected AudioClip _rightClip;
+    [SerializeField]
+    protected AudioClip _introClip;
     void Start() {
         StartCalibration();
     }
 
-    
     public void playDing()
     {
         _audioSource.PlayOneShot(_dingClip);
@@ -44,12 +49,12 @@ public class SpotlightsController : MonoBehaviour
 
     public void playLeftAudio()
     {
-
+        _audioSource.PlayOneShot(_leftClip);
     }
 
     public void playRightAudio()
     {
-
+        _audioSource.PlayOneShot(_rightClip);
     }
 
     /// <summary>
@@ -96,12 +101,13 @@ public class SpotlightsController : MonoBehaviour
     }
 
     public void onConfirmLookDirection() {
-        playDing();
+        // playDing();
 
         SensorQuaternion currentQ = _wearableControl.LastSensorFrame.rotation;
         float diff = currentQ.value.eulerAngles.y - userCenter.value.eulerAngles.y;
-        // float DotResult = Vector3.Dot(transform., currentQ.value.eulerAngles);
+        // float DotResult = Vector3.Dot(Vector3.forward, currentQ.value.eulerAngles);
         // Debug.Log(diff);
+        // transform.InverseTransformPoint(otherTransform.position)
         // if(diff < 30f && diff > 300f) {
         //     Debug.Log("Center"+ Time.time + " " + diff);
         //     play
